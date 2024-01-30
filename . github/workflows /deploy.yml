@@ -1,4 +1,3 @@
-
 name: GCP Deployment
 
 on:
@@ -19,6 +18,9 @@ jobs:
       with:
         python-version: 3.9
 
+    - name: Retrieve GCP Key Path
+      run: echo "::set-env name=GCP_KEY_PATH::${{ secrets.GCP_CREDENTIALS }}"
+
     - name: Build and Push Docker Image
       run: |
         docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/your-app:latest .
@@ -30,4 +32,4 @@ jobs:
     - name: Terraform Apply
       run: |
         cd terraform
-        terraform apply -auto-approve
+        terraform apply -auto-approve -var="gcp_key_path=${{ env.GCP_CREDENTIALS }}"
