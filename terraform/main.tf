@@ -1,6 +1,6 @@
 provider "google" {
   credentials = file(var.GCP_CREDENTIALS)
-  project     = "your-gcp-project-id"
+  project     = "my-project-9248-412719"
   region      = "us-central1"
 }
 
