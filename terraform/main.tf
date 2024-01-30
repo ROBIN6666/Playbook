@@ -6,7 +6,7 @@ provider "google" {
 
 variable "gcp_key_path" {
   description = "Path to the GCP key.json file"
-  default     = "/path/to/default/key.json"  # Provide a default path or set it as per your needs
+  default     = "/app/key.json"  # Provide a default path or set it as per your needs
 }
 
 resource "google_container_cluster" "your-cluster" {
