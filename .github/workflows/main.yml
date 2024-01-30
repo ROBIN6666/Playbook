@@ -15,7 +15,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
       with:
-        ref: v2
+           fetch-depth: 5  # Set a higher value as needed
 
     - name: Set up Python
       uses: actions/setup-python@v2
