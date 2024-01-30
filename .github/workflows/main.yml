@@ -19,7 +19,9 @@ jobs:
         python-version: 3.9
 
     - name: Retrieve GCP Key Path
-      run: echo "::set-env name=GCP_CREDENTIALS::${{ secrets.GCP_CREDENTIALS }}"
+      run: echo "GCP_CREDENTIALS=${{ secrets.GCP_CREDENTIALS }}" >> $GITHUB_ENV
+      env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     - name: Build and Push Docker Image
       run: |
