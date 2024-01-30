@@ -27,7 +27,7 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-app:latest .
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-app:latest -f ./app/Dockerfile .
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-app:latest
 
     - name: Terraform Init
