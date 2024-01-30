@@ -1,0 +1,36 @@
+name: GCP Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Retrieve GCP Key Path
+      run: echo "::set-env name=GCP_KEY_PATH::${{ secrets.GCP_CREDENTIALS }}"
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello:latest .
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello:latest
+
+    - name: Terraform Init
+      run: cd terraform && terraform init
+
+    - name: Terraform Apply
+      run: |
+        cd terraform
+        terraform apply -auto-approve -var="gcp_key_path=${{ env.GCP_CREDENTIALS }}"
+        
