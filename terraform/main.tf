@@ -1,10 +1,10 @@
 provider "google" {
-  credentials = file(var.gcp_key_path)
+  credentials = file(var.GCP_CREDENTIALS)
   project     = "your-gcp-project-id"
   region      = "us-central1"
 }
 
-variable "gcp_key_path" {
+variable "GCP_CREDENTIALS" {
   description = "Path to the GCP key.json file"
   default     = "/app/key.json"  # Provide a default path or set it as per your needs
 }
