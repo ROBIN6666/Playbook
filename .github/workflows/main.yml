@@ -8,10 +8,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+      with:
+        ref: v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -20,13 +24,11 @@ jobs:
 
     - name: Retrieve GCP Key Path
       run: echo "GCP_CREDENTIALS=${{ secrets.GCP_CREDENTIALS }}" >> $GITHUB_ENV
-      env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello:latest .
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello:latest
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-app:latest .
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/hello-app:latest
 
     - name: Terraform Init
       run: cd terraform && terraform init
@@ -35,4 +37,3 @@ jobs:
       run: |
         cd terraform
         terraform apply -auto-approve -var="gcp_key_path=${{ env.GCP_CREDENTIALS }}"
-        
